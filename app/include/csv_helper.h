@@ -77,3 +77,30 @@ void write_col_vec_to_csv(  const std::vector<std::vector<T>>& data,
     }
     ofs.close();
 }
+
+
+//PRE:  given a vector containing column data vectors, 
+//      an empty vector containing 'number_of_columns' column data vectors
+//POST: extracts 'aufeinanderfolgende' rows and columns from the raw data 
+//      (specified by start and number of *) and writes them into the 
+//      column data vectors
+template <typename T>
+void extract_data_from_col_vec(  
+                    const std::vector<std::vector<T>>& raw_data,
+                    std::vector<std::vector<T>>& processed_data,
+                    const int start_column,
+                    const int number_of_columns,
+                    const int start_row,
+                    const int number_of_rows)
+{
+    //iterate through rows
+    for(int m = 0; m < number_of_rows; m++ )
+    {
+        //iterate through columns
+        for(int n = 0; n < number_of_columns; n++)
+        {
+            processed_data.at(n).push_back(
+                raw_data.at(n+start_column).at(m+start_row));
+        }
+    }
+}
