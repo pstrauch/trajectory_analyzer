@@ -4,3 +4,6 @@ add_library(discretization_lib STATIC
 
 target_include_directories(
     discretization_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_link_libraries(discretization_lib PRIVATE
+    yaml-cpp)

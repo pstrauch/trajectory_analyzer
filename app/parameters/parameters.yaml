@@ -1,0 +1,33 @@
+####################
+#data parameters
+####################
+
+# path: "./log/test/testdata.csv" #path to the log csv file
+# path: "./log/flight_logs/27_10_circle_delay_5ms.csv"
+path: "./log/flight_logs/26_10_circle_delay_1ms.csv"
+raw_data_columns: 7              #how many columns exist in the log file
+factor: 1000                     #what factor should be applied when reading
+
+#default mocap log => 7 columns: time, x, y, z, roll, pitch, yaw
+
+#extraction parameters
+extract_data: true             #if data points have to be extracted from raw data
+start_column: 1                 #first column to be extracted
+number_of_columns: 2            #number of columns to be extracted
+start_row: 1600                    #first row to be extracted
+number_of_rows: 2000               #number of rows to be extracted
+
+
+####################
+#discretization parameters
+####################
+
+discretization_rule: 1          #which discretization rule should be used
+# 0 : line
+# 1 : circle
+
+####################
+#general parameters
+####################
+
+progress_information: true
