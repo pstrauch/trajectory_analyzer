@@ -1,1 +1,2 @@
-# add_subdirectory(csv_lib)
+add_subdirectory(discretization_lib)
+add_subdirectory(geometric_statistics_lib)
