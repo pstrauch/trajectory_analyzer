@@ -1,2 +1,2 @@
--   add yaml functionality to add parameters
 -   add 3d functionality
+-   add robustness to code (cassert)
