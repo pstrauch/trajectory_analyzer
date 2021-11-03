@@ -5,7 +5,7 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
-#include "./utils/csv_helper.h"
+#include "csv_helper.h"
 
 
 //PRE:  Two points (x1, x2),(x2,y2)
