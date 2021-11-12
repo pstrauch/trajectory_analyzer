@@ -40,6 +40,7 @@ void read_csv_to_col_vec (  std::vector<std::vector<T>>& data,
 
 
     T element = 0;
+    char ignore;
     unsigned int limit = 1e8;
 
     //read first row separatly for assertion
@@ -49,19 +50,19 @@ void read_csv_to_col_vec (  std::vector<std::vector<T>>& data,
         ifs >> element;
 
         data.at(i).push_back(element*scaling_factor);
-        ifs >> element; 
+        ifs >> ignore; 
         assert(!ifs.eof());         //assert: not end of file (incomplete row)
-        assert('\n' != element);    //assert: not end of row
+        assert('\n' != ignore);    //assert: not end of row
     }
 
     //read the last element separately to assert end of row
     ifs >> element;
     data.back().push_back(element);
-    ifs >> element;
+    ifs >> ignore;
     if(ifs.eof()) {
         return; //file ended after first line -> ok
     } else {
-        assert('\n' == element); //assert: end of row
+        assert(',' != ignore); //assert: end of row
     }
 
     //iterate through remaining rows
@@ -79,7 +80,7 @@ void read_csv_to_col_vec (  std::vector<std::vector<T>>& data,
         if(ifs.eof()) //check for end of file
             break;
     }
-    
+
     assert(ifs.eof()); //assert: end of file reached
     
     ifs.close();    //redundant?

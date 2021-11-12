@@ -108,7 +108,7 @@ int main()
         std::cout << "--Computing Root Mean Square Error--" << std::endl;
 
     //compute rmse
-    double rmse = compute_rmse(discretization, data_points_2d);
+    double rmse = compute_rmse_2d(discretization, data_points_2d);
     std::cout << " *Root Mean Square Error [mm]: " << rmse << std::endl;
 
     return 0;

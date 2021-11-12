@@ -6,9 +6,7 @@
 #include <geometric_statistics.h>
 
 
-//PRE:  Two points (x1, x2),(x2,y2)
-//POST: Returns the distance between the two points
-double distance(const double x1, 
+double distance2d(const double x1, 
                 const double y1, 
                 const double x2, 
                 const double y2)
@@ -18,10 +16,7 @@ double distance(const double x1,
 }
 
 
-//PRE:  given discretized set of a trajectory (in column vector format)
-//      and a point (x0,y0)
-//POST: returns the minimal distance of (x0,y0) to the (discretized) trajectory
-double min_distance_point_disc( 
+double min_distance2d_point_disc( 
     const std::vector<std::vector<double>>& discretization,
     const double x0,
     const double y0)
@@ -30,7 +25,7 @@ double min_distance_point_disc(
 
     for(auto i = 0; i < discretization.at(0).size(); i++)
     {
-        double result = distance(
+        double result = distance2d(
             x0, 
             y0, 
             discretization.at(0).at(i), 
@@ -43,19 +38,24 @@ double min_distance_point_disc(
 }
 
 
-//PRE:  given a discretized set of the trajectory, 
-//      discrete data points and an empty distances vector
-//      (in the column vector format)
-//POST: computes the minimal distances of all data points to the circle and 
-//      writes them in the distances vector
-void min_distances_data_disc(
+/**
+ * Computes the minimal distance from each data point to a discrete set
+ * of points
+ * 
+ * @param[in] discretization vector containing a discrete set of points in 
+ * column vector format
+ * @param[in] data vector containing the data points in column vector format
+ * @param[out] distances vector containing the minimal distance of each
+ * data point to the discrete set of points
+ **/
+void min_distances2d_data_disc(
     const std::vector<std::vector<double>>& discretization,
     const std::vector<std::vector<double>>& data,
     std::vector<double>& distances)
 {
     for(auto i = 0; i < data.at(0).size(); i++)
     {
-        double result = min_distance_point_disc(
+        double result = min_distance2d_point_disc(
             discretization, 
             data.at(0).at(i), 
             data.at(1).at(i));
@@ -77,11 +77,20 @@ void min_distances_data_disc(
 //      both in column vector format
 //POST: computes the root mean square error, where the error is measured as the 
 //      closest distance from the data points to the (discretized) trajectory
-double compute_rmse(const std::vector<std::vector<double>>& discretization,
+/**
+ * Computes the root mean squared error, where the error is measured as the
+ * closest 2D distance (x,y) from the data points to a discrete set of points
+ * 
+ * @param[in] discretization vector containing a discrete set of points in 
+ * column vector format
+ * @param[in] data vector containing the data points in column vector format
+ * @returns the 2d root mean squared error
+ **/
+double compute_rmse_2d(const std::vector<std::vector<double>>& discretization,
                     const std::vector<std::vector<double>>& data)
 {
     std::vector<double> errors;
-    min_distances_data_disc(discretization, data, errors);
+    min_distances2d_data_disc(discretization, data, errors);
 
     double sum = 0;
     for(double i : errors)
@@ -95,7 +104,7 @@ double compute_mean(const std::vector<std::vector<double>>& discretization,
                     const std::vector<std::vector<double>>& data)
 {
     std::vector<double> errors;
-    min_distances_data_disc(discretization, data, errors);
+    min_distances2d_data_disc(discretization, data, errors);
 
     double sum = 0;
     for(double i : errors)
