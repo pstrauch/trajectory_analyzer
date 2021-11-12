@@ -35,13 +35,20 @@ double distance3d(  const double x1,
  * @param[in] discretization vector containing a discrete set of points in 
  * column vector format
  * @param[in] x0 x coordinate of the point
- * @param[in] y y coordinate of the point
+ * @param[in] y0 y coordinate of the point
  * @returns Minimal distance between the point and the discrete set of points
  **/
 double min_distance2d_point_disc( 
     const std::vector<std::vector<double>>& discretization,
     const double x0,
     const double y0);
+
+
+double min_distance3d_point_disc( 
+    const std::vector<std::vector<double>>& discretization,
+    const double x0,
+    const double y0,
+    const double z0);
 
 
 //PRE:  given a discretized set of the trajectory, 
@@ -55,11 +62,21 @@ void min_distances2d_data_disc(
     std::vector<double>& distances);
 
 
+void min_distances3d_data_disc(
+    const std::vector<std::vector<double>>& discretization,
+    const std::vector<std::vector<double>>& data,
+    std::vector<double>& distances);
+
+
 //PRE:  given a discretized set of the trajectory and discrete data points,
 //      both in column vector format
 //POST: computes the root mean square error, where the error is measured as the 
 //      closest distance from the data points to the (discretized) trajectory
 double compute_rmse_2d(const std::vector<std::vector<double>>& discretization,
+                    const std::vector<std::vector<double>>& data);
+
+
+double compute_rmse_3d(const std::vector<std::vector<double>>& discretization,
                     const std::vector<std::vector<double>>& data);
 
 

@@ -1,2 +1,3 @@
 -   add 3d functionality
--   add robustness to code (cassert)
+-   add function comments
+-   add further robustness to code (cassert)
