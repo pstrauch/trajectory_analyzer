@@ -1,3 +1,0 @@
-[submodule "lib/csv_helper_lib"]
-	path = lib/csv_helper_lib
-	url = https://github.com/pstrauch/csv_helper_lib.git
