@@ -18,3 +18,4 @@ para_end:   6.283185307 #2pi
 radius:     1500
 midpoint_x: 500
 midpoint_y: -500
+height:     500;
