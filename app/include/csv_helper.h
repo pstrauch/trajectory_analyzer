@@ -7,17 +7,16 @@
 
 
 /** 
- * Reads data from a .csv file and stores it in a data-matrix using 
+ * Reads data of type T from a .csv file and stores it in a data-matrix using 
  * column-vectors
  * 
  * @param[out] data vector containing N empty column vectors (size 0), 
  * where N corresponds to the amount of columns in the .csv file
  * @param[in] path path to the .csv file the data is saved
- * @param[in] scaling_factor a factor read data is multiplied with
- * @throws Assertion if the column vectors are not of size 0
+ * @param[in] scaling_factor the factor by which the read data is multiplied with
  * @throws Error if the .csv cannot be opened
- * @throws Assertion if the number of columns in data does not correspond
- * with the .csv file
+ * @throws Assertion if the column vectors are not of size 0
+ * @throws Assertion if the number of columns in the data is not equal to the .csv file
  * @throws Assertion if more than 1e8 rows exist
  **/
 template <typename T>
@@ -25,14 +24,14 @@ void read_csv_to_col_vec (  std::vector<std::vector<T>>& data,
                             const std::string path, 
                             const T scaling_factor)
 {
-    //assert: column vectors are empty
-    for(auto i = 0; i < data.size(); ++i)
+    /* ASSERT: column vectors are of size 0 */
+    for (auto i = 0; i < data.size(); ++i)
         assert(data.at(i).size() == 0);
     
-    //open file
+    /* open file */
     std::ifstream ifs;
     ifs.open(path);
-    if(!ifs.is_open())
+    if (!ifs.is_open())
     {
         std::cerr << "Problem when opening file!" << std::endl;
         exit(1);
@@ -40,50 +39,49 @@ void read_csv_to_col_vec (  std::vector<std::vector<T>>& data,
 
 
     T element = 0;
-    char ignore;
-    unsigned int limit = 1e8;
-
-    //read first row separatly for assertion
-    //read elements except the last column
-    for (auto i = 0; i < data.size() - 1; ++i)
+    char separator;
+    const unsigned int ROW_LIMIT = 1e8;
+    
+    //iterate through rows
+    for (unsigned int i = 0; i < ROW_LIMIT; ++i)
     {
-        ifs >> element;
-
-        data.at(i).push_back(element*scaling_factor);
-        ifs >> ignore; 
-        assert(!ifs.eof());         //assert: not end of file (incomplete row)
-        assert('\n' != ignore);    //assert: not end of row
-    }
-
-    //read the last element separately to assert end of row
-    ifs >> element;
-    data.back().push_back(element);
-    ifs >> ignore;
-    if(ifs.eof()) {
-        return; //file ended after first line -> ok
-    } else {
-        assert(',' != ignore); //assert: end of row
-    }
-
-    //iterate through remaining rows
-    for (unsigned int i = 0; i < limit; ++i)
-    {
-        //iterate through columns
-        for(auto& vec : data)
+        // iterate through columns
+        for (auto j = 0; j < data.size(); ++j)
         {
+            // read element
             ifs >> element;
 
-            vec.push_back(element*scaling_factor);
-           
-            ifs.ignore();  //ignore , or \n
+            //ASSERT: not end of file (valid data)
+            assert(!ifs.eof());
+
+            // scale and store element to data
+            data.at(j).push_back(element*scaling_factor);
+
+            // check for last column
+            if (j == data.size()-1)
+            {
+                // ignore separation character
+                ifs >> separator; 
+
+                if(ifs.eof()) {
+                    ifs.close();    //redundant?
+                    return;         //file ended at end of line -> ok
+                } else {
+                    assert('\n' == separator);     // ASSERT: end of row
+                }
+            } else {    // not the last column
+                // ignore separation character
+                ifs >> separator; 
+
+                // assertions
+                assert(!ifs.eof());         //ASSERT: not end of file
+                assert('\n' != separator);  //ASSERT: not end of row
+            }
         }
-        if(ifs.eof()) //check for end of file
-            break;
     }
 
-    assert(ifs.eof()); //assert: end of file reached
-    
-    ifs.close();    //redundant?
+    // something's wrong
+    assert(false);
 }
 
 
